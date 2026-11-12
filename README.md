@@ -4,6 +4,8 @@ Dateien zum Laden auf den Arbeits-PC.
 
 ## Herunterladen (ohne Git)
 
+Das Repo ist privat: erst im Browser bei github.com anmelden, dann den Link öffnen.
+
 **ZIP:** https://github.com/ralphdenk0209-debug/austausch/archive/refs/heads/main.zip
 
 Entpacken, dann den gewünschten Ordner nach z. B. `C:\Werkzeuge\` kopieren.
