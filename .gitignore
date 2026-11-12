@@ -1,0 +1,7 @@
+.DS_Store
+node_modules/
+Playwright-Werkzeug/anmeldung.json
+Playwright-Werkzeug/Mitschnitte/*
+Playwright-Werkzeug/Ergebnisse/*
+Playwright-Werkzeug/Ablaeufe/*
+!Playwright-Werkzeug/*/.leer

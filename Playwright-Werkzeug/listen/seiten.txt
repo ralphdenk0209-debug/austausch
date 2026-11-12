@@ -1,0 +1,4 @@
+# Adressen für Screenshots und PDFs (Menüpunkt 4 und 5)
+# Eine Adresse pro Zeile. Zeilen mit # werden übersprungen.
+https://example.com
+https://www.wikipedia.org

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playwright-Werkzeug – Anleitung</title>
+<style>
+:root{--bg:#fbfaf7;--text:#1f2328;--muted:#5d6670;--line:#dcd8cf;--box:#f1eee7;--accent:#1f5f8b;--warn:#8a4b00;--warnbg:#fff4e0}
+@media (prefers-color-scheme:dark){:root{--bg:#17191c;--text:#e6e3dd;--muted:#a3a9b0;--line:#33373c;--box:#22262a;--accent:#7cb7e0;--warn:#f0b866;--warnbg:#2e2618}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Segoe UI",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:30px;margin:0 0 4px}
+h2{font-size:21px;margin:44px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:24px 0 6px}
+p.lead{color:var(--muted);margin-top:0}
+code,kbd{font-family:Consolas,"Cascadia Mono",monospace;font-size:14px;background:var(--box);padding:1px 5px;border-radius:4px}
+pre{background:var(--box);padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.45}
+pre code{background:none;padding:0}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+nav{background:var(--box);border-radius:10px;padding:12px 18px;margin:20px 0}
+nav ol{margin:0;padding-left:20px;columns:2;column-gap:28px}
+@media (max-width:600px){nav ol{columns:1}}
+a{color:var(--accent)}
+.hinweis{background:var(--warnbg);border-left:4px solid var(--warn);padding:10px 14px;border-radius:6px;margin:14px 0}
+ol li,ul li{margin:3px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Playwright-Werkzeug</h1>
+<p class="lead">Teams-Folien automatisch nach OneNote, Browser-Abläufe aufnehmen und abspielen, Screenshots, PDFs, Seiten prüfen und Tabellen nach Excel. Für Windows, ohne Installation.</p>
+
+<nav><ol>
+<li><a href="#start">Einrichten und starten</a></li>
+<li><a href="#teams">Teams-Präsentation → OneNote</a></li>
+<li><a href="#ablauf">Ablauf aufnehmen und abspielen</a></li>
+<li><a href="#bilder">Screenshots und PDFs</a></li>
+<li><a href="#pruefen">Webseiten prüfen</a></li>
+<li><a href="#tabelle">Tabelle → Excel</a></li>
+<li><a href="#anmeldung">Anmeldung speichern</a></li>
+<li><a href="#einstellungen">Einstellungen</a></li>
+<li><a href="#hilfe">Wenn etwas nicht geht</a></li>
+</ol></nav>
+
+<h2 id="start">1. Einrichten und starten</h2>
+<ol>
+<li>Den ganzen Ordner <code>Playwright-Werkzeug</code> auf den Arbeits-PC kopieren, z. B. nach <code>C:\Werkzeuge\</code> oder in „Dokumente“.</li>
+<li>Kam der Ordner per Mail oder Download: Rechtsklick auf <code>START.bat</code> → Eigenschaften → unten <b>Zulassen</b> anhaken (falls vorhanden). Dasselbe für <code>TEAMS-MITSCHNITT.bat</code>.</li>
+<li><code>START.bat</code> doppelklicken. Es öffnet sich ein Menü.</li>
+<li>Einmal <kbd>P</kbd> drücken (Einrichtung prüfen). Dort steht, ob Playwright gefunden wurde (Node oder Python), ob OneNote ansteuerbar ist und ob Teams läuft.</li>
+</ol>
+<p>Das Werkzeug sucht Playwright selbst: erst für Node, dann für Python. Du musst nicht wissen, welches installiert ist. Als Browser nimmt es Microsoft Edge, der auf jedem Firmen-PC vorhanden ist – ein Nachladen von Browsern ist nicht nötig.</p>
+
+<table>
+<tr><th>Datei / Ordner</th><th>Wofür</th></tr>
+<tr><td><code>START.bat</code></td><td>Menü mit allen Funktionen</td></tr>
+<tr><td><code>TEAMS-MITSCHNITT.bat</code></td><td>startet direkt den Teams-Mitschnitt</td></tr>
+<tr><td><code>Mitschnitte\</code></td><td>Folienbilder je Termin, plus <code>Notiz.html</code></td></tr>
+<tr><td><code>Ablaeufe\</code></td><td>aufgenommene Browser-Abläufe</td></tr>
+<tr><td><code>Ergebnisse\</code></td><td>Screenshots, PDFs, Prüfberichte, Tabellen</td></tr>
+<tr><td><code>listen\</code></td><td>Adresslisten für Screenshots/PDFs und Prüfung</td></tr>
+<tr><td><code>einstellungen.json</code></td><td>Einstellungen (Menü <kbd>E</kbd>)</td></tr>
+</table>
+
+<h2 id="teams">2. Teams-Präsentation → OneNote</h2>
+<p>Teams ist eine Desktop-App, darum läuft dieser Teil <b>ohne Playwright</b>: Das Werkzeug fotografiert einen Bildschirmbereich, erkennt, wenn sich die Folie ändert, und speichert nur dann ein Bild. Am Ende legt es in OneNote eine Seite mit Datum, Uhrzeit und allen Folien an.</p>
+<h3>So geht's</h3>
+<ol>
+<li>Teams-Termin beitreten und warten, bis die Präsentation geteilt wird.</li>
+<li><code>TEAMS-MITSCHNITT.bat</code> doppelklicken (oder im Menü <kbd>1</kbd>).</li>
+<li>Namen des Termins bestätigen oder eintippen. Das Werkzeug schlägt den Fenstertitel von Teams vor.</li>
+<li>Enter drücken – der Bildschirm wird dunkel. Mit der Maus einen <b>Rahmen nur um die geteilte Präsentation</b> ziehen, ohne Videokacheln, Chat und Teams-Leisten. Der Rahmen wird gespeichert; beim nächsten Mal reicht Enter.</li>
+<li>Ein kleines Steuerfenster erscheint in einer Bildschirmecke: <b>Bild jetzt</b> (sofort ein Bild, z. B. für eine Folie mit Video), <b>Pause</b>, <b>Beenden</b>.</li>
+<li>Nach <b>Beenden</b> fragt das Werkzeug: „Jetzt als Notiz in OneNote anlegen?“ – Enter. Beim ersten Mal wählst du den OneNote-Abschnitt aus einer Liste; danach wird er vorgeschlagen.</li>
+</ol>
+<p>Die OneNote-Seite heißt z. B. <code>2026-11-12 – Projektrunde Q4</code> und enthält Termin, Datum, Uhrzeit von–bis, eine leere Zeile „Notizen:“ und alle Folien mit Uhrzeit.</p>
+<h3>Wichtig während des Mitschnitts</h3>
+<ul>
+<li>Das Teams-Fenster muss <b>sichtbar</b> bleiben (nicht minimieren, nicht mit anderen Fenstern überdecken). Mit zwei Bildschirmen: Teams auf den zweiten, arbeiten auf dem ersten.</li>
+<li>Teams-Fenster während des Termins <b>nicht verschieben</b> und die Ansicht nicht umstellen (Chat aufklappen, Galerie ändern) – sonst stimmt der Rahmen nicht mehr. Dann beenden, neu starten und mit <kbd>N</kbd> neu aufziehen.</li>
+<li>Bilder entstehen 2–4 Sekunden nach dem Folienwechsel (erst wenn die Folie ruhig steht). Folien, die kürzer als ca. 2 Sekunden gezeigt werden, können fehlen.</li>
+</ul>
+<h3>Später nach OneNote übertragen</h3>
+<p>Menü <kbd>T</kbd>: Mitschnitt aus der Liste wählen – die OneNote-Seite wird nachträglich angelegt. Klappt OneNote nicht, öffnet sich <code>Notiz.html</code>: dort <kbd>Strg</kbd>+<kbd>A</kbd>, <kbd>Strg</kbd>+<kbd>C</kbd> und in OneNote einfügen.</p>
+<div class="hinweis">Präsentationen in Firmenterminen können vertraulich sein. Die Bilder bleiben auf deinem PC; halte dich an die Regeln deiner Firma, ob und wie du Inhalte aus Terminen speichern darfst.</div>
+
+<h2 id="ablauf">3. Ablauf aufnehmen und abspielen</h2>
+<p>Für Dinge, die du im Browser immer wieder gleich klickst: Zeiterfassung, ein Formular im Intranet, einen Bericht herunterladen, Status in einem Webtool abfragen.</p>
+<h3>Aufnehmen (Menü <kbd>2</kbd>)</h3>
+<ol>
+<li>Namen eingeben, z. B. <code>Zeiterfassung</code>, und die Startadresse.</li>
+<li>Es öffnen sich Edge und der „Playwright Inspector“. Klicke dich ganz normal durch. Jeder Klick und jede Eingabe wird mitgeschrieben.</li>
+<li>Prüfpunkte: Im Inspector-Fenster oben „Assert text“ wählen und auf einen Text klicken – beim Abspielen wird dann geprüft, ob er da ist.</li>
+<li>Browser schließen. Der Ablauf liegt jetzt in <code>Ablaeufe\Zeiterfassung.js</code> (oder <code>.py</code>).</li>
+</ol>
+<h3>Abspielen (Menü <kbd>3</kbd>)</h3>
+<p>Ablauf aus der Liste wählen. Der Browser öffnet sich und macht alles nach.</p>
+<div class="hinweis">Tippst du beim Aufnehmen ein Passwort, steht es im Klartext in der Ablauf-Datei. Besser: vorher einmal <b>Anmeldung speichern</b> (Menü <kbd>8</kbd>) und dann ohne Passwort aufnehmen.</div>
+<h3>Ablauf von Hand anpassen</h3>
+<p>Die Datei lässt sich mit dem Editor öffnen. Häufige Änderungen:</p>
+<ul>
+<li>Text ändern, der eingetippt wird: die Zeile mit <code>fill(</code> suchen und den Text in Anführungszeichen ändern.</li>
+<li>Warten einbauen (Node): <code>await page.waitForTimeout(3000);</code> – Python: <code>page.wait_for_timeout(3000)</code> (3000 = 3 Sekunden).</li>
+<li>Unsichtbar laufen lassen: <code>headless: false</code> auf <code>true</code> ändern (Python: <code>headless=False</code> → <code>True</code>).</li>
+</ul>
+
+<h2 id="bilder">4. Screenshots und PDFs (Menü <kbd>4</kbd> / <kbd>5</kbd>)</h2>
+<p>Eine Adresse eintippen – oder Enter, dann werden alle Adressen aus <code>listen\seiten.txt</code> abgearbeitet (eine pro Zeile, <code>#</code> = Kommentar). Screenshots sind ganzseitig. PDFs im A4-Format. Ergebnis in <code>Ergebnisse\Bilder_…</code> bzw. <code>Ergebnisse\PDF_…</code>; der Ordner öffnet sich am Ende.</p>
+<p>Ideen: Dashboard jeden Morgen festhalten, Intranet-Seiten vor einer Änderung sichern, Webseiten für eine Doku als PDF ablegen.</p>
+
+<h2 id="pruefen">5. Webseiten prüfen (Menü <kbd>6</kbd>)</h2>
+<p>Liste in <code>listen\pruefen.txt</code>, eine Seite pro Zeile, optional mit Text, der auf der Seite stehen muss:</p>
+<pre><code>https://intranet.firma.de | Willkommen
+https://ticket.firma.de/status | Alle Systeme in Betrieb
+https://www.firma.de</code></pre>
+<p>Ergebnis: Liste im Fenster (OK / FEHLER), Bericht <code>pruefung.csv</code> (öffnet in Excel: Status, Titel, Ladezeit, Text gefunden) und bei Fehlern ein Screenshot der Seite.</p>
+
+<h2 id="tabelle">6. Tabelle von Webseite → Excel (Menü <kbd>7</kbd>)</h2>
+<p>Adresse eingeben, Enter – alle Tabellen der Seite landen als <code>tabelle_1.csv</code>, <code>tabelle_2.csv</code> … in <code>Ergebnisse\Tabelle_…</code>. Die Dateien öffnen sich per Doppelklick direkt richtig in Excel (Umlaute und Spalten stimmen).</p>
+<p><b>Nur eine bestimmte Tabelle:</b> Bei der Frage nach der CSS-Auswahl z. B. <code>#umsatz</code> oder <code>table.liste</code> eingeben. So findest du sie: Seite in Edge öffnen → Rechtsklick auf die Tabelle → <i>Untersuchen</i> → im unteren Fenster Rechtsklick auf die markierte Zeile → <i>Kopieren → Selektor kopieren</i>. Auch Listen ohne echte Tabelle gehen – dann wird jede Textzeile eine Zeile.</p>
+
+<h2 id="anmeldung">7. Anmeldung speichern (Menü <kbd>8</kbd>)</h2>
+<p>Für Seiten mit Login: Adresse der Anmeldeseite eingeben, im Browser normal anmelden, dann im schwarzen Fenster Enter drücken. Die Anmeldung liegt jetzt in <code>anmeldung.json</code> und wird von allen Funktionen (Screenshots, PDFs, Prüfen, Tabellen, Abläufe) automatisch benutzt.</p>
+<div class="hinweis"><code>anmeldung.json</code> wirkt wie ein Schlüssel zu deinem Konto. Nicht weitergeben. Löschen, wenn du sie nicht mehr brauchst. Läuft die Anmeldung ab, einfach erneut speichern.</div>
+
+<h2 id="einstellungen">8. Einstellungen (Menü <kbd>E</kbd>)</h2>
+<table>
+<tr><th>Feld</th><th>Bedeutung</th></tr>
+<tr><td><code>Browser</code></td><td><code>msedge</code> (Standard), <code>chrome</code> oder <code>chromium</code> (nur, wenn mit <code>playwright install</code> nachgeladen)</td></tr>
+<tr><td><code>PlaywrightOrdner</code></td><td>nur nötig, wenn Playwright in einem Projektordner liegt und nicht gefunden wird, z. B. <code>C:\\Projekte\\tests</code> (doppelte <code>\\</code>!)</td></tr>
+<tr><td><code>TeamsIntervallSekunden</code></td><td>wie oft geschaut wird (Standard 2; 1 = schneller, mehr Rechenlast)</td></tr>
+<tr><td><code>TeamsSchwelleProzent</code></td><td>wie viel sich ändern muss, damit es als neue Folie zählt (Standard 3). Zu viele Bilder → höher (5–8). Fehlende Folien (z. B. nur ein neuer Aufzählungspunkt) → niedriger (1–2).</td></tr>
+<tr><td><code>TeamsBereich</code></td><td>zuletzt aufgezogener Rahmen (wird automatisch gesetzt)</td></tr>
+<tr><td><code>OneNoteAbschnitt…</code></td><td>zuletzt gewählter Abschnitt (wird automatisch gesetzt)</td></tr>
+<tr><td><code>OneNoteBildbreite</code></td><td>Breite der Folien in OneNote in Punkt (Standard 720)</td></tr>
+</table>
+
+<h2 id="hilfe">9. Wenn etwas nicht geht</h2>
+<table>
+<tr><th>Problem</th><th>Lösung</th></tr>
+<tr><td>Fenster geht sofort zu / „Ausführung von Skripts ist deaktiviert“</td><td>Die Datei ist evtl. gesperrt: Eigenschaften → <b>Zulassen</b>. Hilft das nicht, blockiert die Firma PowerShell-Skripte – dann IT fragen.</td></tr>
+<tr><td>„Playwright wurde nicht gefunden“</td><td>In einer Eingabeaufforderung testen: <code>npx playwright --version</code> oder <code>python -m playwright --version</code>. Klappt es nur in einem bestimmten Ordner, diesen Ordner als <code>PlaywrightOrdner</code> eintragen. Der Teams-Teil funktioniert auch ohne Playwright.</td></tr>
+<tr><td>„Executable doesn't exist“ / Browser startet nicht</td><td><code>Browser</code> in den Einstellungen auf <code>msedge</code> (oder <code>chrome</code>) stellen.</td></tr>
+<tr><td>OneNote lässt sich nicht ansteuern</td><td>Es braucht die OneNote-<b>Desktop-App</b> (aus Microsoft 365), nicht „OneNote für Windows 10“ oder OneNote im Browser. OneNote einmal öffnen. Das Werkzeug nicht „als Administrator“ starten. Ausweg immer: <code>Notiz.html</code> kopieren und einfügen.</td></tr>
+<tr><td>Schwarze oder falsche Bilder</td><td>Teams-Fenster war verdeckt oder verschoben. Rahmen neu aufziehen (<kbd>N</kbd>).</td></tr>
+<tr><td>Rahmen sitzt versetzt</td><td>Kommt bei zwei Bildschirmen mit unterschiedlicher Windows-Skalierung vor. Teams auf den Hauptbildschirm legen oder beide Bildschirme auf dieselbe Skalierung (Einstellungen → Anzeige).</td></tr>
+<tr><td>Zu viele / zu wenige Folien</td><td><code>TeamsSchwelleProzent</code> anpassen (siehe Einstellungen). Videokacheln dürfen nicht im Rahmen liegen.</td></tr>
+<tr><td>Abgespielter Ablauf bricht ab</td><td>Seite war zu langsam: Wartezeit einbauen (siehe Abschnitt 3) oder Ablauf neu aufnehmen.</td></tr>
+</table>
+</main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# Seiten prüfen (Menüpunkt 6)
+# Form:  Adresse | Text, der auf der Seite stehen muss (optional)
+# Zeilen mit # werden übersprungen.
+https://example.com | Example Domain
+https://www.wikipedia.org | Wikipedia
